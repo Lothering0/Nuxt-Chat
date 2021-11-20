@@ -40,14 +40,7 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    'nuxt-socket-io'
   ],
-  io: {
-    sockets: [{
-      name: 'main',
-      url: 'http://localhost:3000'
-    }]
-  },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {

@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="ml-5 mt-5">
     <h1>Hello world</h1>
     <button
       class="btn btn-primary"
       @click="myMethod"
     >
-      New message
+      My button
     </button>
   </div>
 </template>
@@ -16,18 +16,26 @@ import { getModule } from 'vuex-module-decorators'
 import { Socket } from 'vue-socket.io-extended'
 import MainModule from '@/store/modules/'
 
+interface Message {
+  text: string
+}
+
 @Component
 export default class App extends Vue {
   public doSmth() {
     const MainModuleInstance = getModule(MainModule, this.$store)
 
-    MainModuleInstance.SOCKET_newMessage()
-    // MainModuleInstance.consoleLog() <-- that works!
+    MainModuleInstance.newMessage()
   }
 
   @Socket()
   connect() {
-    console.log('Hello world!1!')
+    console.log('Connected to socket.io')
+  }
+
+  @Socket('createMessage')
+  onCreateMessage(data: Message) {
+    console.log(data.text)
   }
 
   @Emit()

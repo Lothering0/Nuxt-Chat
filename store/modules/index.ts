@@ -1,18 +1,18 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
+import $socket from '@/plugins/socket-instance'
 
 @Module({
   name: 'modules',
   stateFactory: true,
-  namespaced: true
+  namespaced: true,
 })
 export default class MainModule extends VuexModule {
-  @Mutation
-  consoleLog() {
-    console.log(true)
-  }
-
   @Action
-  SOCKET_newMessage(ctx?: any, data?: any) {
-    console.log('Hello world!', data)
+  newMessage() {
+    $socket.emit('newMessage', {
+      text: 'Message from action'
+    })
+
+    console.log('action')
   }
 }
