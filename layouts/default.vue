@@ -1,5 +1,5 @@
 <template>
-  <main class="ml-5 mt-5">
+  <main class="d-flex justify-content-center">
     <nuxt />
   </main>
 </template>

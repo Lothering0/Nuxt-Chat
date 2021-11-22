@@ -1,45 +1,51 @@
 <template>
   <form
-    class="w-25 p-3 rounded needs-validation"
-    style="background: #eee;"
+    class="card w-25 rounded border-dark mt-5"
     @submit.prevent="submit"
   >
-    <h3 class="d-flex justify-content-center">Nuxt chat</h3>
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Type username"
-        aria-label="Type username"
-        aria-describedby="basic-addon2"
-        maxlength="10"
-        minlength="3"
-        v-model="name"
-      >
+    <div class="card-header bg-warning">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
+        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+      </svg>
+      <span class="ml-2">Nuxt chat</span>
     </div>
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Type room id"
-        aria-label="Type room id"
-        aria-describedby="basic-addon2"
-        maxlength="10"
-        minlength="3"
-        v-model="room"
-      >
-    </div>
+    <div class="card-body">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Type username"
+          aria-label="Type username"
+          aria-describedby="basic-addon2"
+          maxlength="10"
+          minlength="3"
+          v-model="name"
+        >
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Type room id"
+          aria-label="Type room id"
+          aria-describedby="basic-addon2"
+          maxlength="10"
+          minlength="3"
+          v-model="room"
+        >
+      </div>
 
-    <button class="btn btn-primary" type="submit">
-      Enter
-    </button>
-    <button
+      <button class="btn btn-primary" type="submit">
+        Enter
+      </button>
+    </div>
+    <!-- button
       class="btn btn-warning"
       type="button"
       @click="getStoreUser"
     >
       Test
-    </button>
+    </button -->
   </form>
 </template>
 
