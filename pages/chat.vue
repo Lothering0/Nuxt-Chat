@@ -13,15 +13,16 @@
       </div>
     </nav>
 
-    <div class="w-50 d-flex align-items-start border-dark mt-5">
+    <div class="w-75 d-flex align-items-start border-dark mt-5">
       <div
         class="nav flex-column nav-pills me-3"
         id="v-pills-tab"
         role="tablist"
         aria-orientation="vertical"
       >
-        <button
-          class="nav-link btn active"
+      <ul>
+        <li
+          class="nav-link btn active mb-2"
           id="v-pills-home-tab"
           data-bs-toggle="pill"
           data-bs-target="#v-pills-home"
@@ -29,48 +30,21 @@
           role="tab"
           aria-controls="v-pills-home"
           aria-selected="true"
-        >Home</button>
-        <button
-          class="nav-link btn"
-          id="v-pills-profile-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#v-pills-profile"
-          type="button"
-          role="tab"
-          aria-controls="v-pills-profile"
-          aria-selected="false"
-        >Profile</button>
-        <button
-          class="nav-link btn"
-          id="v-pills-messages-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#v-pills-messages"
-          type="button"
-          role="tab"
-          aria-controls="v-pills-messages"
-          aria-selected="false"
-        >Messages</button>
-        <button
-          class="nav-link btn"
-          id="v-pills-settings-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#v-pills-settings"
-          type="button"
-          role="tab"
-          aria-controls="v-pills-settings"
-          aria-selected="false"
-        >Settings</button>
+          v-for="{ name, color } of users"
+          :style="`background: ${color}`"
+          :key="name"
+        >{{name}}</li>
+      </ul>
       </div>
-      <div class="tab-content" id="v-pills-tabContent">
-        <div
+      <ul>
+        <li
           class="ml-3"
-          id="v-pills-home"
-          role="tabpanel"
-          aria-labelledby="v-pills-home-tab"
+          v-for="{ text } of messages"
+          :key="text + Date.now()"
         >
-          Some content Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores accusantium impedit nisi facere deleniti blanditiis explicabo dolores sunt. Corrupti distinctio dolorum culpa vitae voluptate?
-        </div>
-      </div>
+          {{text}}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -90,7 +64,25 @@ import MainModule from '@/store/modules/'
   }
 })
 export default class Chat extends Vue {
+  users = [
+    {
+      name: 'User 1',
+      color: 'black'
+    },
+    {
+      name: 'User 2',
+      color: 'red'
+    }
+  ]
+
   room = this.getUser().room
+  messages = this.getMessages()
+
+  clearData() {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    MainModuleInstance.clearData()
+  }
 
   getUser() {
     const MainModuleInstance = getModule(MainModule, this.$store)
@@ -98,8 +90,17 @@ export default class Chat extends Vue {
     return MainModuleInstance.user
   }
 
+  getMessages() {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    return MainModuleInstance.messages
+  }
+
   @Emit()
-  exit() {}
+  exit() {
+    this.$router.push('/')
+    this.clearData()
+  }
 }
 </script>
 
@@ -120,5 +121,9 @@ button.arrow {
 
 .bi {
   margin-bottom: 1px;
+}
+
+li {
+  width: 200px;
 }
 </style>

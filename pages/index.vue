@@ -1,6 +1,6 @@
 <template>
   <form
-    class="card w-25 rounded border-dark mt-5"
+    class="card w-25 rounded mt-5"
     @submit.prevent="submit"
   >
     <div class="card-header bg-warning">
@@ -34,18 +34,23 @@
           v-model="room"
         >
       </div>
+      <div class="input-group mb-3">
+        <input
+          type="color"
+          class="form-control"
+          placeholder="Type room id"
+          aria-label="Type room id"
+          aria-describedby="basic-addon2"
+          maxlength="10"
+          minlength="3"
+          v-model="color"
+        >
+      </div>
 
       <button class="btn btn-primary" type="submit">
         Enter
       </button>
     </div>
-    <!-- button
-      class="btn btn-warning"
-      type="button"
-      @click="getStoreUser"
-    >
-      Test
-    </button -->
   </form>
 </template>
 
@@ -62,17 +67,25 @@ interface Message {
 interface User {
   name: string
   room: string | number
+  color: string
 }
 
 @Component
 export default class App extends Vue {
   name = ''
   room = ''
+  color = ''
 
   setUser(user: User) {
     const MainModuleInstance = getModule(MainModule, this.$store)
 
     MainModuleInstance.setUser(user)
+  }
+
+  joinUser(user: User, cb: (data: any) => any | void) {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    MainModuleInstance.joinUser(user)
   }
 
   getUser() {
@@ -96,13 +109,18 @@ export default class App extends Vue {
     if (this.name && this.room) {
       const user = {
         name: this.name,
-        room: this.room
+        room: this.room,
+        color: this.color || '#f00'
       }
 
+      this.joinUser(user, (data: any) => {
+        //
+      })
       this.setUser(user)
+
       this.$router.push('/chat')
 
-      this.name = this.room = ''
+      this.name = this.color = this.room = ''
     }
   }
 

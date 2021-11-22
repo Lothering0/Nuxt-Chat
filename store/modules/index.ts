@@ -4,6 +4,7 @@ import $socket from '@/plugins/socket-instance'
 interface User {
   name: string
   room: string | number
+  color: string
 }
 
 @Module({
@@ -12,14 +13,25 @@ interface User {
   namespaced: true,
 })
 export default class MainModule extends VuexModule {
-  public user: User = {
+  public emptyUser: User = {
     name: '',
-    room: ''
+    room: '',
+    color: ''
   }
+
+  public messages = []
+
+  public user: User = this.emptyUser
 
   @Mutation
   setUser(user: User) {
     this.user = user
+  }
+
+  @Mutation
+  clearData() {
+    this.user = this.emptyUser
+    this.messages = []
   }
 
   @Action
@@ -31,7 +43,16 @@ export default class MainModule extends VuexModule {
     console.log('action')
   }
 
+  @Action
+  joinUser(user: User) {
+    $socket.emit('userJoined', user)
+  }
+
   get getUser() {
     return this.user
+  }
+
+  get getMessages() {
+    return this.messages
   }
 }
