@@ -11,7 +11,17 @@ const io = new Server(server, {
 })
 
 io.on('connection', socket => {
-  console.log('Connected')
+  socket.on('userJoined', (data, cb) => {
+    if (!data.name || !data.room)
+      return cb('Invalid credentials')
+
+    socket.emit('newMessage', {
+      name: 'Administrator',
+      text: `Welcome, ${data.name}!`
+    })
+
+    return cb({ userId: socket.id })
+  })
 
   socket.on('newMessage', data => {
     socket.emit('createMessage', {

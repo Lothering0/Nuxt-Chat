@@ -60,14 +60,11 @@ import { getModule } from 'vuex-module-decorators'
 import { Socket } from 'vue-socket.io-extended'
 import MainModule from '@/store/modules/'
 
-interface Message {
-  text: string
-}
-
 interface User {
   name: string
   room: string | number
   color: string
+  userId?: string | number
 }
 
 @Component
@@ -82,10 +79,10 @@ export default class App extends Vue {
     MainModuleInstance.setUser(user)
   }
 
-  joinUser(user: User, cb: (data: any) => any | void) {
+  joinUser(user: User) {
     const MainModuleInstance = getModule(MainModule, this.$store)
 
-    MainModuleInstance.joinUser(user)
+    return MainModuleInstance.joinUser(user)
   }
 
   getUser() {
@@ -99,28 +96,27 @@ export default class App extends Vue {
     console.log('Connected to socket.io')
   }
 
-  @Socket('createMessage')
-  onCreateMessage({ text }: Message) {
-    console.log(text)
-  }
-
   @Emit()
   submit() {
     if (this.name && this.room) {
-      const user = {
+      const user: User = {
         name: this.name,
         room: this.room,
-        color: this.color || '#f00'
+        color: this.color || '#f00',
       }
 
-      this.joinUser(user, (data: any) => {
-        //
-      })
-      this.setUser(user)
+      try {
+        const data: any = this.joinUser(user)
 
-      this.$router.push('/chat')
+        user.userId = data.userId
+        // console.log(user.userId)
+        this.setUser(user)
+        this.$router.push('/chat')
 
-      this.name = this.color = this.room = ''
+        this.name = this.color = this.room = ''
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 

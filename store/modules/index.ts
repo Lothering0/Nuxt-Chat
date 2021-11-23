@@ -3,8 +3,14 @@ import $socket from '@/plugins/socket-instance'
 
 interface User {
   name: string
+  userId?: string
   room: string | number
   color: string
+}
+
+interface Message {
+  name: string
+  text: string
 }
 
 @Module({
@@ -15,11 +21,12 @@ interface User {
 export default class MainModule extends VuexModule {
   public emptyUser: User = {
     name: '',
+    userId: '',
     room: '',
     color: ''
   }
 
-  public messages = []
+  public messages: Message[] = []
 
   public user: User = this.emptyUser
 
@@ -34,6 +41,11 @@ export default class MainModule extends VuexModule {
     this.messages = []
   }
 
+  @Mutation
+  setNewMessage(message: Message) {
+    this.messages.push(message)
+  }
+
   @Action
   newMessage() {
     $socket.emit('newMessage', {
@@ -45,7 +57,11 @@ export default class MainModule extends VuexModule {
 
   @Action
   joinUser(user: User) {
-    $socket.emit('userJoined', user)
+    $socket.emit('userJoined', user, (data: any) => {
+      console.log(data)
+      if (typeof data !== 'string')
+        this.user.userId = data.userId
+    })
   }
 
   get getUser() {

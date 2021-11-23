@@ -53,7 +53,13 @@
 import { Vue, Component, Emit } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import { MetaInfo } from 'vue-meta'
+import { Socket } from 'vue-socket.io-extended'
 import MainModule from '@/store/modules/'
+
+interface Message {
+  name: string
+  text: string
+}
 
 @Component({
   middleware: ['chat'],
@@ -94,6 +100,19 @@ export default class Chat extends Vue {
     const MainModuleInstance = getModule(MainModule, this.$store)
 
     return MainModuleInstance.messages
+  }
+
+  setNewMessage(message: Message) {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    MainModuleInstance.setNewMessage(message)
+  }
+
+  @Socket('newMessage')
+  onNewMessage(message: Message) {
+    console.log(message)
+
+    this.setNewMessage(message)
   }
 
   @Emit()
