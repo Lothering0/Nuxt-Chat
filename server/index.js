@@ -12,15 +12,14 @@ const io = new Server(server, {
 
 io.on('connection', socket => {
   socket.on('userJoined', (data, cb) => {
-    if (!data.name || !data.room)
-      return cb('Invalid credentials')
+    if (!data.name || !data.room) cb('Invalid credentials')
 
     socket.emit('newMessage', {
       name: 'Administrator',
       text: `Welcome, ${data.name}!`
     })
 
-    return cb({ userId: socket.id })
+    cb({ userId: socket.id })
   })
 
   socket.on('newMessage', data => {

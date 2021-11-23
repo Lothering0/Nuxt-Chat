@@ -64,7 +64,7 @@ interface User {
   name: string
   room: string | number
   color: string
-  userId?: string | number
+  userId?: string
 }
 
 @Component
@@ -105,18 +105,12 @@ export default class App extends Vue {
         color: this.color || '#f00',
       }
 
-      try {
-        const data: any = this.joinUser(user)
+      this.joinUser(user)
 
-        user.userId = data.userId
-        // console.log(user.userId)
-        this.setUser(user)
-        this.$router.push('/chat')
+      this.setUser(user)
+      this.$router.push('/chat')
 
-        this.name = this.color = this.room = ''
-      } catch (e) {
-        console.error(e)
-      }
+      this.name = this.color = this.room = ''
     }
   }
 
