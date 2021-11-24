@@ -47,12 +47,13 @@ export default class MainModule extends VuexModule {
   }
 
   @Action
-  newMessage() {
-    $socket.emit('newMessage', {
-      text: 'Message from action'
+  createMessage(text: string) {
+    $socket.emit('createMessage', {
+      text,
+      name: this.user.name,
+      room: this.user.room,
+      id: this.user.userId
     })
-
-    console.log('action')
   }
 
   @Action

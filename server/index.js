@@ -9,12 +9,21 @@ const io = new Server(server, {
     methods: ['GET', 'POST']
   }
 })
+const users = require('./users')()
 
 io.on('connection', socket => {
   socket.on('userJoined', (data, cb) => {
     if (!data.name || !data.room) cb('Invalid credentials')
 
     socket.join(data.room)
+
+    users.remove(socket.id)
+    users.add({
+      id: socket.id,
+      name: data.name,
+      room: data.room
+    })
+    console.log(users.users)
 
     cb({ userId: socket.id })
 
@@ -32,12 +41,22 @@ io.on('connection', socket => {
     }, 250)
   })
 
-  socket.on('newMessage', data => {
-    socket.emit('createMessage', {
-      text: data.text + ' server'
-    })
+  socket.on('createMessage', (data) => {
+    console.log(data)
+    try {
+      if (!data.text) throw new Error('Text is not should be empty')
 
-    console.log(data.text + ' server')
+      const { name, room } = users.get(data.id)
+      if (name && data.text && data.id && room) {
+        io.to(room).emit('newMessage', {
+          name,
+          text: data.text,
+          id: data.id
+        })
+      }
+    } catch (e) {
+      console.log(e.message)
+    }
   })
 })
 

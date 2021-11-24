@@ -22,11 +22,11 @@ interface Message {
 
 @Component
 export default class App extends Vue {
-  public doSmth() {
-    const MainModuleInstance = getModule(MainModule, this.$store)
+  // public doSmth() {
+  //   const MainModuleInstance = getModule(MainModule, this.$store)
 
-    MainModuleInstance.newMessage()
-  }
+  //   MainModuleInstance.newMessage()
+  // }
 
   @Socket()
   connect() {
@@ -38,9 +38,9 @@ export default class App extends Vue {
     console.log(text)
   }
 
-  @Emit()
-  myMethod() {
-    this.doSmth()
-  }
+  // @Emit()
+  // myMethod() {
+  //   this.doSmth()
+  // }
 }
 </script>

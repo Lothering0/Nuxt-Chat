@@ -39,21 +39,16 @@
 
       <div class="messages-and-form">
         <ul class="messages list-group ml-3">
-          <div
+          <Message
             v-for="{ name, text } of messages"
             :key="name + Date.now()"
-          >
-            <Message :name="name" :text="text" />
-          </div>
+            :name="name"
+            :text="text"
+            :owner="true"
+          />
         </ul>
-        <form @submit.prevent>
-          <input
-            class="form-control"
-            placeholder="Type message"
-            type="text"
-          >
-          <button class="btn btn-primary">Send</button>
-        </form>
+
+        <ChatForm />
       </div>
     </div>
   </div>
@@ -165,10 +160,6 @@ button.arrow {
 .messages {
   width: 100%;
   height: 100%;
-}
-
-.messages li {
-  width: fit-content;
 }
 
 .user {

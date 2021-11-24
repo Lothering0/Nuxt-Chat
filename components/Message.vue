@@ -1,7 +1,7 @@
 <template>
-  <div><!--class="list-group-item"-->
+  <li>
     <div
-      class="message"
+      class="message rounded"
       :class="{ owner }"
       v-if="name !== 'Administrator'"
     >
@@ -11,7 +11,7 @@
     <div class="message system-message" v-else>
       <p class="text-danger">{{text}}</p>
     </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
@@ -29,12 +29,20 @@ export default class MessageComp extends Vue {
 </script>
 
 <style scoped>
-.system-message {
-  margin: 0 auto;
+li {
+  width: 100%;
+  list-style: none;
 }
 
 .message {
+  width: 60%;
+  box-shadow: 0 0 4px 1px rgba(50, 50, 50, .2);
+}
+
+.system-message {
   width: fit-content;
+  box-shadow: none;
+  margin: 0 auto;
 }
 
 .owner {
