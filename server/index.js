@@ -14,12 +14,22 @@ io.on('connection', socket => {
   socket.on('userJoined', (data, cb) => {
     if (!data.name || !data.room) cb('Invalid credentials')
 
-    socket.emit('newMessage', {
-      name: 'Administrator',
-      text: `Welcome, ${data.name}!`
-    })
+    socket.join(data.room)
 
     cb({ userId: socket.id })
+
+    setTimeout(() => {
+      socket.emit('newMessage', {
+        name: 'Administrator',
+        text: `Welcome, ${data.name}!`
+      })
+      socket.broadcast
+        .to(data.room)
+        .emit('newMessage', {
+          name: 'Administrator',
+          text: `User ${data.name} joined!`
+        })
+    }, 250)
   })
 
   socket.on('newMessage', data => {

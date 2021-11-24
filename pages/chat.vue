@@ -13,38 +13,48 @@
       </div>
     </nav>
 
-    <div class="w-75 d-flex align-items-start border-dark mt-5">
+    <div class="w-75 chat-section d-flex align-items-start border-dark mt-5">
       <div
         class="nav flex-column nav-pills me-3"
         id="v-pills-tab"
         role="tablist"
         aria-orientation="vertical"
       >
-      <ul>
-        <li
-          class="nav-link btn active mb-2"
-          id="v-pills-home-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#v-pills-home"
-          type="button"
-          role="tab"
-          aria-controls="v-pills-home"
-          aria-selected="true"
-          v-for="{ name, color } of users"
-          :style="`background: ${color}`"
-          :key="name"
-        >{{name}}</li>
-      </ul>
+        <ul class="list-group">
+          <li
+            class="user nav-link btn active mb-2"
+            id="v-pills-home-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-home"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-home"
+            aria-selected="true"
+            v-for="{ name, color } of users"
+            :style="`background: ${color}`"
+            :key="name"
+          >{{name}}</li>
+        </ul>
       </div>
-      <ul>
-        <li
-          class="ml-3"
-          v-for="{ text } of messages"
-          :key="text + Date.now()"
-        >
-          {{text}}
-        </li>
-      </ul>
+
+      <div class="messages-and-form">
+        <ul class="messages list-group ml-3">
+          <div
+            v-for="{ name, text } of messages"
+            :key="name + Date.now()"
+          >
+            <Message :name="name" :text="text" />
+          </div>
+        </ul>
+        <form @submit.prevent>
+          <input
+            class="form-control"
+            placeholder="Type message"
+            type="text"
+          >
+          <button class="btn btn-primary">Send</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -110,8 +120,6 @@ export default class Chat extends Vue {
 
   @Socket('newMessage')
   onNewMessage(message: Message) {
-    console.log(message)
-
     this.setNewMessage(message)
   }
 
@@ -128,6 +136,11 @@ export default class Chat extends Vue {
   width: 100%;
 }
 
+.chat-section {
+  /* background-color: rgba(230,140,10,.4); */
+  height: 75vh;
+}
+
 .container-fluid {
   justify-content: unset;
 }
@@ -142,7 +155,27 @@ button.arrow {
   margin-bottom: 1px;
 }
 
-li {
+.messages-and-form {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.messages {
+  width: 100%;
+  height: 100%;
+}
+
+.messages li {
+  width: fit-content;
+}
+
+.user {
   width: 200px;
+}
+
+form {
+  display: flex;
 }
 </style>
