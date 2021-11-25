@@ -30,21 +30,20 @@
             role="tab"
             aria-controls="v-pills-home"
             aria-selected="true"
-            v-for="{ name, color } of users"
+            v-for="{ name, color, userId } of getUsers()"
             :style="`background: ${color}`"
-            :key="name"
+            :key="userId"
           >{{name}}</li>
         </ul>
       </div>
 
       <div class="messages-and-form">
-        <ul class="messages list-group ml-3">
+        <ul class="messages list-group ml-3" ref="block">
           <Message
-            v-for="{ name, text } of messages"
-            :key="name + Date.now()"
+            v-for="{ name, text, id } of messages"
             :name="name"
             :text="text"
-            :owner="true"
+            :owner="id === getUser().userId"
           />
         </ul>
 
@@ -55,11 +54,18 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Emit } from 'vue-property-decorator'
+import { Vue, Component, Emit, Watch } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import { MetaInfo } from 'vue-meta'
 import { Socket } from 'vue-socket.io-extended'
 import MainModule from '@/store/modules/'
+
+interface User {
+  name: string
+  room: string | number
+  color: string
+  userId?: string
+}
 
 interface Message {
   name: string
@@ -75,30 +81,43 @@ interface Message {
   }
 })
 export default class Chat extends Vue {
-  users = [
-    {
-      name: 'User 1',
-      color: 'black'
-    },
-    {
-      name: 'User 2',
-      color: 'red'
-    }
-  ]
-
+  userId = this.getUser().userId
   room = this.getUser().room
   messages = this.getMessages()
 
-  clearData() {
-    const MainModuleInstance = getModule(MainModule, this.$store)
+  $refs!: {
+    block: HTMLFormElement
+  }
 
-    MainModuleInstance.clearData()
+  @Watch('messages')
+  setScroll() {
+    setTimeout(() => {
+      this.$refs.block.scrollTop = this.$refs.block.scrollHeight
+    })
   }
 
   getUser() {
     const MainModuleInstance = getModule(MainModule, this.$store)
 
     return MainModuleInstance.user
+  }
+
+  getUsers() {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    return MainModuleInstance.users
+  }
+
+  leaveUser() {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    return MainModuleInstance.leaveUser(this.getUser())
+  }
+
+  clearData() {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    MainModuleInstance.clearData()
   }
 
   getMessages() {
@@ -113,13 +132,26 @@ export default class Chat extends Vue {
     MainModuleInstance.setNewMessage(message)
   }
 
+  setUsers(users: User[]) {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    MainModuleInstance.setUsers(users)
+  }
+
   @Socket('newMessage')
   onNewMessage(message: Message) {
     this.setNewMessage(message)
   }
 
+  @Socket('updateUsers')
+  onUpdateUsers(users: User[]) {
+    console.log(users)
+    this.setUsers(users)
+  }
+
   @Emit()
   exit() {
+    this.leaveUser()
     this.$router.push('/')
     this.clearData()
   }
@@ -134,6 +166,7 @@ export default class Chat extends Vue {
 .chat-section {
   /* background-color: rgba(230,140,10,.4); */
   height: 75vh;
+  position: relative;
 }
 
 .container-fluid {
@@ -152,6 +185,7 @@ button.arrow {
 
 .messages-and-form {
   display: flex;
+  position: relative;
   width: 100%;
   height: 100%;
   flex-direction: column;
@@ -160,6 +194,7 @@ button.arrow {
 .messages {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 }
 
 .user {

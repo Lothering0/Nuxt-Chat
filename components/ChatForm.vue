@@ -32,3 +32,18 @@ export default class ChatForm extends Vue {
   }
 }
 </script>
+
+<style scoped>
+form {
+  display: flex;
+  justify-content: center;
+}
+
+.form-control {
+  width: 80%;
+}
+
+button {
+  margin-left: 10px;
+}
+</style>

@@ -19,16 +19,14 @@ interface Message {
   namespaced: true,
 })
 export default class MainModule extends VuexModule {
-  public emptyUser: User = {
+  public messages: Message[] = []
+  public user: User = {
     name: '',
     userId: '',
     room: '',
     color: ''
   }
-
-  public messages: Message[] = []
-
-  public user: User = this.emptyUser
+  public users: User[] = []
 
   @Mutation
   setUser(user: User) {
@@ -37,13 +35,24 @@ export default class MainModule extends VuexModule {
 
   @Mutation
   clearData() {
-    this.user = this.emptyUser
+    this.user = {
+      name: '',
+      userId: '',
+      room: '',
+      color: ''
+    }
     this.messages = []
+    this.users = []
   }
 
   @Mutation
   setNewMessage(message: Message) {
     this.messages.push(message)
+  }
+
+  @Mutation
+  setUsers(users: User[]) {
+    this.users = users
   }
 
   @Action
@@ -65,11 +74,20 @@ export default class MainModule extends VuexModule {
     })
   }
 
+  @Action
+  leaveUser(user: User) {
+    $socket.emit('userLeft', user)
+  }
+
   get getUser() {
     return this.user
   }
 
   get getMessages() {
     return this.messages
+  }
+
+  get getUsers() {
+    return this.users
   }
 }

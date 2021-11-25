@@ -1,14 +1,14 @@
 <template>
-  <li>
+  <li class="mb-3">
     <div
       class="message rounded"
       :class="{ owner }"
       v-if="name !== 'Administrator'"
     >
-      <h3>{{name}}</h3>
+      <h6>{{name}}</h6>
       <p>{{text}}</p>
     </div>
-    <div class="message system-message" v-else>
+    <div class="system-message" v-else>
       <p class="text-danger">{{text}}</p>
     </div>
   </li>
@@ -35,8 +35,12 @@ li {
 }
 
 .message {
-  width: 60%;
+  max-width: 60%;
+  width: fit-content;
   box-shadow: 0 0 4px 1px rgba(50, 50, 50, .2);
+  margin-left: 2px;
+  padding: 20px;
+  word-wrap: break-word;
 }
 
 .system-message {
@@ -47,6 +51,15 @@ li {
 
 .owner {
   margin-left: auto;
+  margin-right: 2px;
+}
+
+.owner h6 {
+  text-align: right;
+}
+
+h6 {
+  font-weight: 600;
 }
 
 p {

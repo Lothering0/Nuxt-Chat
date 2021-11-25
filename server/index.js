@@ -19,15 +19,19 @@ io.on('connection', socket => {
 
     users.remove(socket.id)
     users.add({
-      id: socket.id,
+      userId: socket.id,
       name: data.name,
       room: data.room
     })
-    console.log(users.users)
 
     cb({ userId: socket.id })
 
     setTimeout(() => {
+      io
+        .to(data.room)
+        .emit('updateUsers', users.getByRoom(data.room))
+      console.log(users.getByRoom(data.room))
+
       socket.emit('newMessage', {
         name: 'Administrator',
         text: `Welcome, ${data.name}!`
@@ -41,18 +45,58 @@ io.on('connection', socket => {
     }, 250)
   })
 
-  socket.on('createMessage', (data) => {
-    console.log(data)
-    try {
-      if (!data.text) throw new Error('Text is not should be empty')
+  socket.on('userLeft', (data) => {
+    console.log('Leave: ', data)
 
-      const { name, room } = users.get(data.id)
-      if (name && data.text && data.id && room) {
-        io.to(room).emit('newMessage', {
-          name,
-          text: data.text,
-          id: data.id
+    const user = users.remove(socket.id)
+    socket.leave(data.room)
+    if (user) {
+      io
+        .to(user.room)
+        .emit('updateUsers', users.getByRoom(user.room))
+
+      io
+        .to(user.room)
+        .emit('newMessage', {
+          name: 'Administrator',
+          text: `User ${user.name} left.`
         })
+    }
+  })
+
+  // If user close the tab for example
+  socket.on('disconnect', (data) => {
+    const user = users.remove(socket.id)
+    socket.leave(data.room)
+    if (user) {
+      io
+        .to(user.room)
+        .emit('updateUsers', users.getByRoom(user.room))
+
+      io
+        .to(user.room)
+        .emit('newMessage', {
+          name: 'Administrator',
+          text: `User ${user.name} left`
+        })
+    }
+  })
+
+  socket.on('createMessage', ({text, id}) => {
+    try {
+      if (!text) {
+        throw new Error('Text is not should be empty')
+      }
+
+      const { name, room } = users.get(id)
+      if (name && text && id && room) {
+        io
+          .to(room)
+          .emit('newMessage', {
+            name,
+            text,
+            id
+          })
       }
     } catch (e) {
       console.log(e.message)
