@@ -1,8 +1,9 @@
+import { Server, Socket } from 'socket.io'
+
 const express = require('express')
 const app = express()
 const http = require('http')
 const server = http.createServer(app)
-const { Server } = require('socket.io')
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:3000',
@@ -15,7 +16,7 @@ io.on('connect_error', err => {
   console.log(`Connect error due to ${err}`)
 })
 
-io.on('connection', socket => {
+io.on('connection', (socket: Socket) => {
   socket.on('userJoined', (data, cb) => {
     if (!data.name || !data.room) cb('Invalid credentials')
 
@@ -102,7 +103,7 @@ io.on('connection', socket => {
           })
       }
     } catch (e) {
-      console.log(e.message)
+      console.log((e as Error).message)
     }
   })
 })

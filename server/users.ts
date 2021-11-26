@@ -1,17 +1,26 @@
+interface User {
+  name: string
+  color: string
+  room: string
+  userId: string
+}
+
 class Users {
+  public users: User[]
+
   constructor() {
     this.users = []
   }
 
-  add(user) {
+  add(user: User) {
     this.users.push(user)
   }
 
-  get(id) {
+  get(id: string) {
     return this.users.find(user => user.userId === id)
   }
 
-  remove(id) {
+  remove(id: string) {
     const user = this.get(id)
 
     if (user) {
@@ -21,7 +30,7 @@ class Users {
     return user
   }
 
-  getByRoom(room) {
+  getByRoom(room: string) {
     return this.users.filter(user => user.room === room)
   }
 }
