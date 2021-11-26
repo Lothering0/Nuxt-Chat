@@ -35,14 +35,17 @@
         >
       </div>
       <div class="input-group mb-3">
+        <label for="color-picker">Pick color:</label>
         <input
           type="color"
-          class="form-control"
+          id="color-picker"
+          class="ml-3 form-control rounded"
           placeholder="Type room id"
           aria-label="Type room id"
           aria-describedby="basic-addon2"
           maxlength="10"
           minlength="3"
+          width="60"
           v-model="color"
         >
       </div>
@@ -102,7 +105,7 @@ export default class App extends Vue {
       const user: User = {
         name: this.name,
         room: this.room,
-        color: this.color || '#f00',
+        color: this.color || '#000000',
       }
 
       this.joinUser(user)
@@ -112,11 +115,6 @@ export default class App extends Vue {
 
       this.name = this.color = this.room = ''
     }
-  }
-
-  @Emit()
-  getStoreUser() {
-    console.log(this.getUser())
   }
 }
 </script>

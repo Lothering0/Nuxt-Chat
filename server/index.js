@@ -11,6 +11,10 @@ const io = new Server(server, {
 })
 const users = require('./users')()
 
+io.on('connect_error', err => {
+  console.log(`Connect error due to ${err}`)
+})
+
 io.on('connection', socket => {
   socket.on('userJoined', (data, cb) => {
     if (!data.name || !data.room) cb('Invalid credentials')
@@ -21,6 +25,7 @@ io.on('connection', socket => {
     users.add({
       userId: socket.id,
       name: data.name,
+      color: data.color,
       room: data.room
     })
 
@@ -30,7 +35,6 @@ io.on('connection', socket => {
       io
         .to(data.room)
         .emit('updateUsers', users.getByRoom(data.room))
-      console.log(users.getByRoom(data.room))
 
       socket.emit('newMessage', {
         name: 'Administrator',
@@ -46,8 +50,6 @@ io.on('connection', socket => {
   })
 
   socket.on('userLeft', (data) => {
-    console.log('Leave: ', data)
-
     const user = users.remove(socket.id)
     socket.leave(data.room)
     if (user) {
@@ -67,7 +69,7 @@ io.on('connection', socket => {
   // If user close the tab for example
   socket.on('disconnect', (data) => {
     const user = users.remove(socket.id)
-    socket.leave(data.room)
+
     if (user) {
       io
         .to(user.room)
@@ -82,18 +84,19 @@ io.on('connection', socket => {
     }
   })
 
-  socket.on('createMessage', ({text, id}) => {
+  socket.on('createMessage', ({ text, id }) => {
     try {
       if (!text) {
         throw new Error('Text is not should be empty')
       }
 
-      const { name, room } = users.get(id)
-      if (name && text && id && room) {
+      const { name, color, room } = users.get(id)
+      if (name && color && text && id && room) {
         io
           .to(room)
           .emit('newMessage', {
             name,
+            color,
             text,
             id
           })

@@ -22,7 +22,7 @@
       >
         <ul class="list-group">
           <li
-            class="user nav-link btn active mb-2"
+            class="user nav-link btn mb-2"
             id="v-pills-home-tab"
             data-bs-toggle="pill"
             data-bs-target="#v-pills-home"
@@ -31,17 +31,18 @@
             aria-controls="v-pills-home"
             aria-selected="true"
             v-for="{ name, color, userId } of getUsers()"
-            :style="`background: ${color}`"
+            :style="{ backgroundColor: color }"
             :key="userId"
-          >{{name}}</li>
+          ><span :style="{ color, filter: 'invert(1)' }">{{name}}</span></li>
         </ul>
       </div>
 
       <div class="messages-and-form">
         <ul class="messages list-group ml-3" ref="block">
           <Message
-            v-for="{ name, text, id } of messages"
+            v-for="{ name, color, text, id } of messages"
             :name="name"
+            :color="color"
             :text="text"
             :owner="id === getUser().userId"
           />
