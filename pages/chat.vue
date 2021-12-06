@@ -60,18 +60,8 @@ import { getModule } from 'vuex-module-decorators'
 import { MetaInfo } from 'vue-meta'
 import { Socket } from 'vue-socket.io-extended'
 import MainModule from '@/store/modules/'
-
-interface User {
-  name: string
-  room: string | number
-  color: string
-  userId?: string
-}
-
-interface Message {
-  name: string
-  text: string
-}
+import User from '@/interfaces/user-interface'
+import Message from '@/interfaces/message-interface'
 
 @Component({
   middleware: ['chat'],
@@ -146,7 +136,6 @@ export default class Chat extends Vue {
 
   @Socket('updateUsers')
   onUpdateUsers(users: User[]) {
-    console.log(users)
     this.setUsers(users)
   }
 
@@ -165,7 +154,6 @@ export default class Chat extends Vue {
 }
 
 .chat-section {
-  /* background-color: rgba(230,140,10,.4); */
   height: 75vh;
   position: relative;
 }

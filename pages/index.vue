@@ -62,13 +62,7 @@ import { Vue, Component, Emit } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import { Socket } from 'vue-socket.io-extended'
 import MainModule from '@/store/modules/'
-
-interface User {
-  name: string
-  room: string | number
-  color: string
-  userId?: string
-}
+import User from '@/interfaces/user-interface'
 
 @Component
 export default class App extends Vue {

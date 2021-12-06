@@ -1,9 +1,4 @@
-interface User {
-  name: string
-  color: string
-  room: string
-  userId: string
-}
+import User from '@/interfaces/user-interface'
 
 class Users {
   public users: User[]

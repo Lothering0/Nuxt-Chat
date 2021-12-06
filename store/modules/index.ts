@@ -1,17 +1,7 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import $socket from '@/plugins/socket-instance'
-
-interface User {
-  name: string
-  userId?: string
-  room: string | number
-  color: string
-}
-
-interface Message {
-  name: string
-  text: string
-}
+import User from '@/interfaces/user-interface'
+import Message from '@/interfaces/message-interface'
 
 @Module({
   name: 'modules',
@@ -68,7 +58,6 @@ export default class MainModule extends VuexModule {
   @Action
   joinUser(user: User) {
     $socket.emit('userJoined', user, (data: any) => {
-      console.log(data)
       if (typeof data !== 'string')
         this.user.userId = data.userId
     })

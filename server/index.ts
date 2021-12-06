@@ -110,5 +110,5 @@ io.on('connection', (socket: Socket) => {
 })
 
 server.listen(PORT, () => {
-  console.log('Hello express')
+  console.log(`Server started on port ${PORT}`)
 })

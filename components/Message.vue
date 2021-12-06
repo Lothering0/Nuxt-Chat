@@ -61,6 +61,7 @@ li {
 
 .owner {
   border-top-right-radius: 0 !important;
+  border-top-left-radius: 0.25rem !important;
   margin-left: auto;
   margin-right: 20px;
 }
