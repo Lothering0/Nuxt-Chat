@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
+    "dev": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt\"",
+    "build": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt build\"",
+    "start": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt start\"",
+    "generate": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt generate\""
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "concurrently": "^6.4.0",
     "core-js": "^3.15.1",
     "express": "^4.17.1",
     "nuxt": "^2.15.7",

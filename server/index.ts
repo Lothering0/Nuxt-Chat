@@ -11,6 +11,7 @@ const io = new Server(server, {
   }
 })
 const users = require('./users')()
+const PORT = process.env.PORT || 9000
 
 io.on('connect_error', err => {
   console.log(`Connect error due to ${err}`)
@@ -108,6 +109,6 @@ io.on('connection', (socket: Socket) => {
   })
 })
 
-server.listen(9000, () => {
+server.listen(PORT, () => {
   console.log('Hello express')
 })

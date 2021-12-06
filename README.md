@@ -15,12 +15,7 @@ Simple [TypeScript](https://www.typescriptlang.org/) chat on [Nuxt.js](https://n
 # install dependencies
 $ npm install
 
-# start server side at localhost:9000
-cd server
-tsc index.ts users.ts
-node index.js
-
-# serve with hot reload at localhost:3000
+# serve with hot reload at localhost:3000 and server at localhost:9000
 $ npm run dev
 
 # build for production and launch server
