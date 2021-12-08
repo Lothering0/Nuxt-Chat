@@ -90,3 +90,4 @@ sw.*
 *.swp
 
 server/*.js
+interfaces/*.js

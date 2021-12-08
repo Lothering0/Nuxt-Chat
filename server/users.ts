@@ -1,4 +1,4 @@
-import User from '@/interfaces/user-interface'
+import User from '../interfaces/user-interface'
 
 class Users {
   public users: User[]
