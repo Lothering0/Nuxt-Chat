@@ -79,4 +79,15 @@ export default class MainModule extends VuexModule {
   get getUsers() {
     return this.users
   }
+
+  public userListIsHidden: boolean = true
+
+  @Mutation
+  showOrHideUserList() {
+    this.userListIsHidden = !this.userListIsHidden
+  }
+
+  get getUserListIsHidden() {
+    return this.userListIsHidden
+  }
 }

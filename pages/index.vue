@@ -112,3 +112,10 @@ export default class App extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.card {
+  width: unset !important;
+  min-width: 25% !important;
+}
+</style>

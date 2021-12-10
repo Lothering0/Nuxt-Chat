@@ -1,21 +1,11 @@
 <template>
   <div class="chat d-flex align-items-center flex-column">
-    <nav class="navbar navbar-light bg-warning">
-      <div class="container-fluid">
-        <button class="arrow" @click="exit">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
-          </svg>
-        </button>
-        <span class="navbar-brand mb-0 ml-3 h1">
-          Chat page
-        </span>
-      </div>
-    </nav>
+    <Navbar />
 
     <div class="w-75 chat-section d-flex align-items-start border-dark mt-5">
       <div
         class="nav flex-column nav-pills me-3"
+        :class="{ 'hide': getUserListIsHidden() }"
         id="v-pills-tab"
         role="tablist"
         aria-orientation="vertical"
@@ -55,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Emit, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import { MetaInfo } from 'vue-meta'
 import { Socket } from 'vue-socket.io-extended'
@@ -99,22 +89,16 @@ export default class Chat extends Vue {
     return MainModuleInstance.users
   }
 
-  leaveUser() {
-    const MainModuleInstance = getModule(MainModule, this.$store)
-
-    return MainModuleInstance.leaveUser(this.getUser())
-  }
-
-  clearData() {
-    const MainModuleInstance = getModule(MainModule, this.$store)
-
-    MainModuleInstance.clearData()
-  }
-
   getMessages() {
     const MainModuleInstance = getModule(MainModule, this.$store)
 
     return MainModuleInstance.messages
+  }
+
+  getUserListIsHidden() {
+    const MainModuleInstance = getModule(MainModule, this.$store)
+
+    return MainModuleInstance.getUserListIsHidden
   }
 
   setNewMessage(message: Message) {
@@ -138,17 +122,15 @@ export default class Chat extends Vue {
   onUpdateUsers(users: User[]) {
     this.setUsers(users)
   }
-
-  @Emit()
-  exit() {
-    this.leaveUser()
-    this.$router.push('/')
-    this.clearData()
-  }
 }
 </script>
 
 <style scoped>
+.w-75 {
+  width: 75% !important;
+  min-width: 15% !important;
+}
+
 .navbar, .chat {
   width: 100%;
 }
@@ -162,20 +144,11 @@ export default class Chat extends Vue {
   justify-content: unset;
 }
 
-button.arrow {
-  transform: scale(2) translateY(-2px);
-  background-color: transparent;
-  border: 0;
-}
-
-.bi {
-  margin-bottom: 1px;
-}
-
 .messages-and-form {
   display: flex;
   position: relative;
   width: 100%;
+  min-width: 50%;
   height: 100%;
   flex-direction: column;
 }
@@ -183,7 +156,20 @@ button.arrow {
 .messages {
   width: 100%;
   height: 100%;
+
+  margin-left: 0 !important;
+
   overflow-y: auto;
+}
+
+.nav-pills {
+  max-width: 213px;
+  min-width: 213px;
+  height: 100%;
+
+  margin-right: 3px;
+
+  overflow-y: scroll;
 }
 
 .user {
@@ -192,5 +178,23 @@ button.arrow {
 
 form {
   display: flex;
+}
+
+@media screen and (max-width: 768px) {
+  .nav-pills {
+    background-color: white;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    max-width: 768px;
+  }
+
+  .user {
+    margin: 0 auto;
+  }
+
+  .hide {
+    display: none !important;
+  }
 }
 </style>
