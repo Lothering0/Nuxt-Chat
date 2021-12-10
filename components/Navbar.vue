@@ -62,13 +62,30 @@ export default class Navbar extends Vue {
 
 <style scoped>
 button {
-  transform: scale(2) translateY(-2px);
+  display: flex;
+
+  width: 40px;
+  height: 40px;
+
   background-color: transparent;
   border: 0;
+  border-radius: 3px;
+
+  transition: .2s;
 }
 
-.bi {
-  margin-bottom: 1px;
+button:hover {
+  background: rgba(0,0,0,.07);
+}
+
+button:active {
+  background: rgba(0,0,0,.2);
+}
+
+svg {
+  margin: auto;
+
+  transform: scale(2);
 }
 
 .users {
