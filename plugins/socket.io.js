@@ -7,7 +7,3 @@ export default ({ store }) => {
     store
   })
 }
-
-// https://typescript.nuxtjs.org/cookbook/components
-// https://typescript.nuxtjs.org/cookbook/store/
-// https://www.npmjs.com/package/vue-socket.io-extended`
