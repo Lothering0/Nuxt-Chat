@@ -6,7 +6,7 @@
     "dev": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt\"",
     "build": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt build\"",
     "start": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt start\"",
-    "generate": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt generate\""
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
