@@ -6,7 +6,7 @@ const http = require('http')
 const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: 'https://nuxt-chat0.herokuapp.com',
+    origin: 'http://nuxt-chat0.herokuapp.com',
     methods: ['GET', 'POST']
   }
 })
