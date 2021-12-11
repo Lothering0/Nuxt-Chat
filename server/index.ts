@@ -11,7 +11,7 @@ const io = new Server(server, {
   }
 })
 const users = require('./users')()
-const PORT = process.env.PORT || 9000
+const PORT = 9000
 
 io.on('connect_error', err => {
   console.log(`Connect error due to ${err}`)
