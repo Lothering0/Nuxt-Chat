@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt\"",
+    "dev": "concurrently \"tsc --watch server/index.ts server/users.ts && nodemon server/index.js\" \"nuxt\"",
     "build": "nuxt build",
     "start": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt start\"",
     "generate": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt generate\""
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.7",
-    "@nuxt/typescript-build": "^2.1.0"
+    "@nuxt/typescript-build": "^2.1.0",
+    "nodemon": "^2.0.15"
   }
 }
