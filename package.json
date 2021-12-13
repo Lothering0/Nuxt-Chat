@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"tsc --watch server/index.ts server/users.ts && nodemon server/index.js\" \"nuxt\"",
+    "dev": "concurrently \"tsc --watch ../server/index.ts ../server/users.ts && nodemon ../server/index.js\" \"nuxt\"",
     "build": "nuxt build",
-    "start": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt start\"",
-    "generate": "concurrently \"tsc server/index.ts server/users.ts && node server/index.js\" \"nuxt generate\""
+    "start": "nuxt start",
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
@@ -14,9 +14,7 @@
     "bootstrap-vue": "^2.21.2",
     "concurrently": "^6.4.0",
     "core-js": "^3.15.1",
-    "express": "^4.17.1",
     "nuxt": "^2.15.7",
-    "socket.io": "^4.4.0",
     "socket.io-client": "^4.3.2",
     "typescript": "^4.5.3",
     "vue-class-component": "^7.2.6",
