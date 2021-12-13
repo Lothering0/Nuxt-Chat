@@ -1,6 +1,6 @@
 # Chat
 
-Simple [TypeScript](https://www.typescriptlang.org/) chat on [Nuxt.js](https://nuxtjs.org) and [Socket.io](https://socket.io). Chat includes creating and joining to rooms, select user name and user color. 
+Simple [TypeScript](https://www.typescriptlang.org/) chat on [Nuxt.js](https://nuxtjs.org) and [Socket.io](https://socket.io). Chat includes creating and joining to rooms, select user name and user color. [GitHub of server side](https://github.com/Lothering0/Nuxt-Chat-server).
 
 ## Technologies
 * [TypeScript](https://www.typescriptlang.org/)
@@ -15,7 +15,7 @@ Simple [TypeScript](https://www.typescriptlang.org/) chat on [Nuxt.js](https://n
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:3000 and server at localhost:9000
+# serve with hot reload at localhost:3000
 $ npm run dev
 
 # build for production and launch server

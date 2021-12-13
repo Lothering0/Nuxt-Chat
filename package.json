@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"tsc --watch ../server/index.ts ../server/users.ts && nodemon ../server/index.js\" \"nuxt\"",
+    "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -12,7 +12,6 @@
     "@nuxtjs/pwa": "^3.3.5",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
-    "concurrently": "^6.4.0",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "socket.io-client": "^4.3.2",
