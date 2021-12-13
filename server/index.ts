@@ -112,5 +112,5 @@ io.on('connection', (socket: Socket) => {
 
 server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`)
-  console.log(`Server: ${process.env}`)
+  console.log(process.env)
 })
