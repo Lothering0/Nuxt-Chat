@@ -1,5 +1,7 @@
 # Chat
 
+[<sup>Go to page on Heroku</sup>](https://nuxt-chat0.herokuapp.com/)
+
 Simple [TypeScript](https://www.typescriptlang.org/) chat on [Nuxt.js](https://nuxtjs.org) and [Socket.io](https://socket.io). Chat includes creating and joining to rooms, select user name and user color. [GitHub of server side](https://github.com/Lothering0/Nuxt-Chat-server).
 
 ## Technologies
